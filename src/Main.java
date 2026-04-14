@@ -1,5 +1,8 @@
+import ui.MainFrame;
+import javax.swing.SwingUtilities;
+
 public class Main {
-    public static void main(String[] args) throws Exception {
-        System.out.println("Hello, World!");
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new MainFrame());
     }
 }
