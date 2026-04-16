@@ -76,4 +76,27 @@ public class BookService {
       System.out.println("Error deleting book: " + e.getMessage());
     }
   }
+
+  // In/De crement
+  public void decreaseQuantity(int bookId) {
+    String sql = "UPDATE books SET quantity = quantity - 1 WHERE id = ? AND quantity > 0";
+    try (Connection conn = DBConnection.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(sql)) {
+      stmt.setInt(1, bookId);
+      stmt.executeUpdate();
+    } catch (SQLException e) {
+      System.out.println("Error decreasing quantity: " + e.getMessage());
+    }
+  }
+
+  public void increaseQuantity(int bookId) {
+    String sql = "UPDATE books SET quantity = quantity + 1 WHERE id = ?";
+    try (Connection conn = DBConnection.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(sql)) {
+      stmt.setInt(1, bookId);
+      stmt.executeUpdate();
+    } catch (SQLException e) {
+      System.out.println("Error increasing quantity: " + e.getMessage());
+    }
+  }
 }

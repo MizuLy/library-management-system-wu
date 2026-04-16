@@ -82,4 +82,19 @@ public class BorrowingService {
       System.out.println("Error deleting borrowings: " + e.getMessage());
     }
   }
+
+  // Return mark
+  public void markReturned(int id) {
+    String sql = "UPDATE borrowings SET returned_at=? WHERE id=?";
+    try (Connection conn = DBConnection.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+      stmt.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+      stmt.setInt(2, id);
+      stmt.executeUpdate();
+
+    } catch (SQLException e) {
+      System.out.println("Error marking returned: " + e.getMessage());
+    }
+  }
 }

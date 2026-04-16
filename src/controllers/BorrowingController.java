@@ -28,4 +28,8 @@ public class BorrowingController {
   public void deleteBorrowing(int id) {
     borrowingService.deleteBorrowing(id);
   }
+
+  public void markReturned(int id) {
+    borrowingService.markReturned(id);
+  }
 }

@@ -92,14 +92,12 @@ public class BorrowingPanel extends JPanel {
   }
 
   private void showAddDialog() {
-    // load members into dropdown
     List<MemberModel> members = memberController.getAllMembers();
     JComboBox<String> memberBox = new JComboBox<>();
     for (MemberModel m : members) {
       memberBox.addItem(m.getId() + " - " + m.getName());
     }
 
-    // load books into dropdown
     List<BookModel> books = bookController.getAllBooks();
     JComboBox<String> bookBox = new JComboBox<>();
     for (BookModel b : books) {
@@ -116,13 +114,17 @@ public class BorrowingPanel extends JPanel {
 
     int result = JOptionPane.showConfirmDialog(this, fields, "Add Borrowing", JOptionPane.OK_CANCEL_OPTION);
     if (result == JOptionPane.OK_OPTION) {
-      int memberId = Integer.parseInt(memberBox.getSelectedItem().toString().split(" - ")[0]);
-      int bookId = Integer.parseInt(bookBox.getSelectedItem().toString().split(" - ")[0]);
-      Timestamp borrowedAt = new Timestamp(System.currentTimeMillis());
-      Date dueDate = Date.valueOf(dueDateField.getText());
+      try {
+        int memberId = Integer.parseInt(memberBox.getSelectedItem().toString().split(" - ")[0]);
+        int bookId = Integer.parseInt(bookBox.getSelectedItem().toString().split(" - ")[0]);
+        Timestamp borrowedAt = new Timestamp(System.currentTimeMillis());
+        Date dueDate = Date.valueOf(dueDateField.getText());
 
-      borrowingController.addBorrowing(memberId, bookId, borrowedAt, dueDate, null);
-      loadBorrowings();
+        borrowingController.addBorrowing(memberId, bookId, borrowedAt, dueDate, null);
+        loadBorrowings();
+      } catch (IllegalArgumentException ex) {
+        JOptionPane.showMessageDialog(this, "Invalid date. Use YYYY-MM-DD", "Error", JOptionPane.ERROR_MESSAGE);
+      }
     }
   }
 
@@ -134,20 +136,7 @@ public class BorrowingPanel extends JPanel {
     int id = (int) tableModel.getValueAt(row, 0);
     int confirm = JOptionPane.showConfirmDialog(this, "Mark as returned?", "Confirm", JOptionPane.YES_NO_OPTION);
     if (confirm == JOptionPane.YES_OPTION) {
-      // get existing borrowing data and update with returned timestamp
-      List<BorrowingModel> borrowings = borrowingController.getAllBorrowings();
-      for (BorrowingModel b : borrowings) {
-        if (b.getId() == id) {
-          borrowingController.updateBorrowing(
-              id,
-              b.getMember_id(),
-              b.getBook_id(),
-              b.getBorrowed_at(),
-              b.getDue_date(),
-              new Timestamp(System.currentTimeMillis()));
-          break;
-        }
-      }
+      borrowingController.markReturned(id);
       loadBorrowings();
     }
   }

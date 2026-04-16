@@ -24,4 +24,12 @@ public class BookController {
   public void deleteBook(int id) {
     bookService.deleteBook(id);
   }
+
+  public void decreaseQuantity(int bookId) {
+    bookService.decreaseQuantity(bookId);
+  }
+
+  public void increaseQuantity(int bookId) {
+    bookService.increaseQuantity(bookId);
+  }
 }
