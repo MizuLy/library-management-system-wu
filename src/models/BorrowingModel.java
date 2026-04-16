@@ -7,16 +7,29 @@ public class BorrowingModel {
   private int id;
   private int member_id;
   private int book_id;
+  private String memberName;
+  private String bookTitle;
   private Timestamp borrowed_at;
   private Date due_date;
   private Timestamp returned_at;
 
-  // constructor
+  // for INSERT (uses IDs)
   public BorrowingModel(int id, int member_id, int book_id, Timestamp borrowed_at, Date due_date,
       Timestamp returned_at) {
     this.id = id;
     this.member_id = member_id;
     this.book_id = book_id;
+    this.borrowed_at = borrowed_at;
+    this.due_date = due_date;
+    this.returned_at = returned_at;
+  }
+
+  // for SELECT/display (uses names)
+  public BorrowingModel(int id, String memberName, String bookTitle, Timestamp borrowed_at, Date due_date,
+      Timestamp returned_at) {
+    this.id = id;
+    this.memberName = memberName;
+    this.bookTitle = bookTitle;
     this.borrowed_at = borrowed_at;
     this.due_date = due_date;
     this.returned_at = returned_at;
@@ -33,6 +46,14 @@ public class BorrowingModel {
 
   public int getBook_id() {
     return book_id;
+  }
+
+  public String getMemberName() {
+    return memberName;
+  }
+
+  public String getBookTitle() {
+    return bookTitle;
   }
 
   public Timestamp getBorrowed_at() {

@@ -18,6 +18,7 @@ public class MemberService {
       stmt.setString(2, member.getEmail());
       stmt.setString(3, member.getPhone());
       stmt.executeUpdate();
+
     } catch (SQLException e) {
       System.out.println("Error adding member: " + e.getMessage());
     }
