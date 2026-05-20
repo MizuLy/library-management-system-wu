@@ -31,7 +31,7 @@ public class BookPanel extends JPanel {
     JLabel title = new JLabel("Books");
     title.setFont(new Font("Sans Serif", Font.BOLD, 20));
 
-    JButton addBtn = new JButton("+ Add BookModel");
+    JButton addBtn = new JButton("+ Add Book");
     addBtn.addActionListener(e -> showAddDialog());
 
     searchField = new JTextField();
@@ -62,7 +62,7 @@ public class BookPanel extends JPanel {
   }
 
   private JScrollPane createTablePanel() {
-    String[] columns = { "ID", "Title", "Author", "Genre", "Quantity" };
+    String[] columns = { "ID", "Title", "Author", "Genre" };
     tableModel = new DefaultTableModel(columns, 0) {
       public boolean isCellEditable(int row, int col) {
         return false;
@@ -91,7 +91,7 @@ public class BookPanel extends JPanel {
     tableModel.setRowCount(0);
     List<BookModel> books = bookController.getAllBooks();
     for (BookModel b : books) {
-      tableModel.addRow(new Object[] { b.getId(), b.getTitle(), b.getAuthor(), b.getGenre(), b.getQuantity() });
+      tableModel.addRow(new Object[] { b.getId(), b.getTitle(), b.getAuthor(), b.getGenre() });
     }
   }
 
@@ -101,7 +101,7 @@ public class BookPanel extends JPanel {
     List<BookModel> books = bookController.getAllBooks();
     for (BookModel b : books) {
       if (b.getTitle().toLowerCase().contains(query) || b.getAuthor().toLowerCase().contains(query)) {
-        tableModel.addRow(new Object[] { b.getId(), b.getTitle(), b.getAuthor(), b.getGenre(), b.getQuantity() });
+        tableModel.addRow(new Object[] { b.getId(), b.getTitle(), b.getAuthor(), b.getGenre() });
       }
     }
   }
@@ -110,22 +110,19 @@ public class BookPanel extends JPanel {
     JTextField titleField = new JTextField();
     JTextField authorField = new JTextField();
     JTextField genreField = new JTextField();
-    JTextField quantityField = new JTextField();
 
     Object[] fields = {
         "Title:", titleField,
         "Author:", authorField,
-        "Genre:", genreField,
-        "Quantity:", quantityField
+        "Genre:", genreField
     };
 
-    int result = JOptionPane.showConfirmDialog(this, fields, "Add BookModel", JOptionPane.OK_CANCEL_OPTION);
+    int result = JOptionPane.showConfirmDialog(this, fields, "Add Book", JOptionPane.OK_CANCEL_OPTION);
     if (result == JOptionPane.OK_OPTION) {
       bookController.addBook(
           titleField.getText(),
           authorField.getText(),
-          genreField.getText(),
-          Integer.parseInt(quantityField.getText()));
+          genreField.getText());
       loadBooks();
     }
   }
@@ -139,23 +136,20 @@ public class BookPanel extends JPanel {
     JTextField titleField = new JTextField((String) tableModel.getValueAt(row, 1));
     JTextField authorField = new JTextField((String) tableModel.getValueAt(row, 2));
     JTextField genreField = new JTextField((String) tableModel.getValueAt(row, 3));
-    JTextField quantityField = new JTextField(String.valueOf(tableModel.getValueAt(row, 4)));
 
     Object[] fields = {
         "Title:", titleField,
         "Author:", authorField,
-        "Genre:", genreField,
-        "Quantity:", quantityField
+        "Genre:", genreField
     };
 
-    int result = JOptionPane.showConfirmDialog(this, fields, "Edit BookModel", JOptionPane.OK_CANCEL_OPTION);
+    int result = JOptionPane.showConfirmDialog(this, fields, "Edit Book", JOptionPane.OK_CANCEL_OPTION);
     if (result == JOptionPane.OK_OPTION) {
       bookController.updateBook(
           id,
           titleField.getText(),
           authorField.getText(),
-          genreField.getText(),
-          Integer.parseInt(quantityField.getText()));
+          genreField.getText());
       loadBooks();
     }
   }

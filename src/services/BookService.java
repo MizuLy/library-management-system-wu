@@ -10,14 +10,13 @@ import java.util.List;
 public class BookService {
 
   public void addBook(BookModel book) {
-    String sql = "INSERT INTO books (title, author, genre, quantity) VALUES (?, ?, ?, ?)";
+    String sql = "INSERT INTO books (title, author, genre) VALUES (?, ?, ?)";
     try (Connection conn = DBConnection.getConnection();
         PreparedStatement stmt = conn.prepareStatement(sql)) {
 
       stmt.setString(1, book.getTitle());
       stmt.setString(2, book.getAuthor());
       stmt.setString(3, book.getGenre());
-      stmt.setInt(4, book.getQuantity());
       stmt.executeUpdate();
 
     } catch (SQLException e) {
@@ -37,8 +36,7 @@ public class BookService {
             rs.getInt("id"),
             rs.getString("title"),
             rs.getString("author"),
-            rs.getString("genre"),
-            rs.getInt("quantity")));
+            rs.getString("genre")));
       }
 
     } catch (SQLException e) {
@@ -48,14 +46,13 @@ public class BookService {
   }
 
   public void updateBook(BookModel book) {
-    String sql = "UPDATE books SET title=?, author=?, genre=?, quantity=? WHERE id=?";
+    String sql = "UPDATE books SET title=?, author=?, genre=? WHERE id=?";
     try (Connection conn = DBConnection.getConnection();
         PreparedStatement stmt = conn.prepareStatement(sql)) {
 
       stmt.setString(1, book.getTitle());
       stmt.setString(2, book.getAuthor());
       stmt.setString(3, book.getGenre());
-      stmt.setInt(4, book.getQuantity());
       stmt.setInt(5, book.getId());
       stmt.executeUpdate();
 
@@ -74,29 +71,6 @@ public class BookService {
 
     } catch (SQLException e) {
       System.out.println("Error deleting book: " + e.getMessage());
-    }
-  }
-
-  // In/De crement
-  public void decreaseQuantity(int bookId) {
-    String sql = "UPDATE books SET quantity = quantity - 1 WHERE id = ? AND quantity > 0";
-    try (Connection conn = DBConnection.getConnection();
-        PreparedStatement stmt = conn.prepareStatement(sql)) {
-      stmt.setInt(1, bookId);
-      stmt.executeUpdate();
-    } catch (SQLException e) {
-      System.out.println("Error decreasing quantity: " + e.getMessage());
-    }
-  }
-
-  public void increaseQuantity(int bookId) {
-    String sql = "UPDATE books SET quantity = quantity + 1 WHERE id = ?";
-    try (Connection conn = DBConnection.getConnection();
-        PreparedStatement stmt = conn.prepareStatement(sql)) {
-      stmt.setInt(1, bookId);
-      stmt.executeUpdate();
-    } catch (SQLException e) {
-      System.out.println("Error increasing quantity: " + e.getMessage());
     }
   }
 }

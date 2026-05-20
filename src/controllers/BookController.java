@@ -7,8 +7,8 @@ import java.util.List;
 public class BookController {
   private BookService bookService = new BookService();
 
-  public void addBook(String title, String author, String genre, int quantity) {
-    BookModel book = new BookModel(0, title, author, genre, quantity);
+  public void addBook(String title, String author, String genre) {
+    BookModel book = new BookModel(0, title, author, genre);
     bookService.addBook(book);
   }
 
@@ -16,20 +16,12 @@ public class BookController {
     return bookService.getAllBooks();
   }
 
-  public void updateBook(int id, String title, String author, String genre, int quantity) {
-    BookModel book = new BookModel(id, title, author, genre, quantity);
+  public void updateBook(int id, String title, String author, String genre) {
+    BookModel book = new BookModel(id, title, author, genre);
     bookService.updateBook(book);
   }
 
   public void deleteBook(int id) {
     bookService.deleteBook(id);
-  }
-
-  public void decreaseQuantity(int bookId) {
-    bookService.decreaseQuantity(bookId);
-  }
-
-  public void increaseQuantity(int bookId) {
-    bookService.increaseQuantity(bookId);
   }
 }

@@ -5,14 +5,12 @@ public class BookModel {
   private String title;
   private String author;
   private String genre;
-  private int quantity;
 
-  public BookModel(int id, String title, String author, String genre, int quantity) {
+  public BookModel(int id, String title, String author, String genre) {
     this.id = id;
     this.title = title;
     this.author = author;
     this.genre = genre;
-    this.quantity = quantity;
   }
 
   public int getId() {
@@ -31,10 +29,6 @@ public class BookModel {
     return genre;
   }
 
-  public int getQuantity() {
-    return quantity;
-  }
-
   public void setId(int id) {
     this.id = id;
   }
@@ -49,9 +43,5 @@ public class BookModel {
 
   public void setGenre(String genre) {
     this.genre = genre;
-  }
-
-  public void setQuantity(int quantity) {
-    this.quantity = quantity;
   }
 }
